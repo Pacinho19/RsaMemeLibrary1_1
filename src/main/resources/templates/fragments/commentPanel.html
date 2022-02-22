@@ -1,0 +1,34 @@
+<div th:fragment="commentPanel" class="container" style="width:100%;text-align:center;margin-top:2%;"
+     xmlns:th="http://www.w3.org/1999/xhtml">
+    <div style="text-align:center;display:block;" class="col-sm-12">
+        <form th:method="post" th:action="@{/rsameme/meme/comment}">
+            <input hidden name="memeId" th:value="*{meme.id}">
+            <textarea name="commentText" style="width:90%;display:block;margin-left: auto; margin-right: auto;"
+                      class="form-control"
+                      placeholder="write a comment..." rows="3"
+                      th:text="''">
+                            </textarea>
+            <button style="width:90%;text-align:center;margin-top:1%;" type="submit"
+                    class="btn btn-info pull-right">Post
+            </button>
+        </form>
+        <div class="clearfix"></div>
+        <hr>
+        <div th:each="comment: ${comments} " class="col-md-12" style="text-align:center;margin-bottom:2%;display:block">
+            <div class="bg-white p-2">
+                <div class="d-flex flex-row user-info">
+                    <i style="font-size:60px;text-align:left" class="bi bi-person-square"></i>
+                    <div class="d-flex flex-column justify-content-start ml-2" style="margin-top:1%">
+                        <span style="text-align:left;font-size:25px;" class="d-block font-weight-bold name" th:text="${comment.user.username}">
+                    </span>
+                        <span style="margin-top:2%font-size:20px;" class="date text-black-50" th:text="'Shared publicly ' + ${comment.addDate}"></span>
+                    </div>
+                </div>
+                <div style="text-align:left" class="mt-2">
+                    <p style="text-align:left;font-size:25px;" class="comment-text" th:text="${comment.text}"></p>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>

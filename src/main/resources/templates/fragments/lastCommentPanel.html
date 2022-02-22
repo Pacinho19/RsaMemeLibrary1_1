@@ -1,0 +1,20 @@
+<div th:fragment="lastCommentPanel">
+    <div th:if="${meme.lastComment!=null}" class="col-md-12" style="text-align:center;margin-bottom:2%;display:block">
+        <div class="bg-white p-2">
+            <div class="d-flex flex-row user-info">
+                <i style="font-size:60px;text-align:left" class="bi bi-person-square"></i>
+                <div class="d-flex flex-column justify-content-start ml-2" style="margin-top:1%">
+                        <span style="text-align:left;font-size:25px;" class="d-block font-weight-bold name"
+                              th:text="${meme.lastComment.user.username}">
+                    </span>
+                    <span style="margin-top:2%font-size:20px;" class="date text-black-50"
+                          th:text="'Shared publicly ' + ${meme.lastComment.addDate}"></span>
+                </div>
+            </div>
+            <div style="text-align:left" class="mt-2">
+                <p style="text-align:left;font-size:25px;" class="comment-text" th:text="${meme.lastComment.text}"></p>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>

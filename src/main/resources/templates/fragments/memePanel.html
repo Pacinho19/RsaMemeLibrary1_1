@@ -1,0 +1,33 @@
+<div th:fragment="memePanel">
+<div class="row">
+  <div style="text-align:left" class="col-md-10">
+    <label style="font-size:20px;color:white" th:text="${meme.title}">Title</label>
+  </div>
+  <div class="col-md-2" style="text-align:right">
+    <label style="color:white;margin-left:1%" th:text="'Author : ' + ${meme.user.username}">User</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8" style="text-align:left">
+    <label style="color:white" th:text="${meme.description}">Description</label>
+  </div>
+  <div class="col-md-4" style="text-align:right">
+    <label style="color:white;text-align:right" th:text="${meme.addDate}">Add Date</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10" style="text-align:left"></div>
+  <div class="col-md-2" style="text-align:right">
+    <form th:method="get" th:action="@{'/rsameme/meme/category/'+${meme.category}}">
+      <button class="btn">
+        <i style="color:white;text-align:right" class="bi bi-award">
+          <label th:text="${meme.category}">Category</label>
+        </i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<img style="margin-bottom:1%;" class="rounded" width="400" height="400"
+     th:src="@{${'/img/' + meme.user.username +'/' + meme.name}}"/>
+</div>
