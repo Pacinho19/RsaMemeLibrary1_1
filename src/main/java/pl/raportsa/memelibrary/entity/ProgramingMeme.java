@@ -25,7 +25,7 @@ public class ProgramingMeme {
     private Date created;
     @Column(name = "modifiedDate")
     private Date modified;
-    @Column(name = "url")
+    @Column(name = "url", length = 1000)
     private String image;
     private Date addDate;
 }

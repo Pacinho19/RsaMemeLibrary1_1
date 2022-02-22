@@ -21,8 +21,10 @@ public class ProgramingMemeService {
     private final ProgramingMemeRepository programingMemeRepository;
 
     public void saveAll(List<ProgramingMeme> programingMemes){
-        programingMemes.forEach(pm -> pm.setAddDate(new Date()));
-        programingMemeRepository.saveAll(programingMemes);
+        programingMemes.stream()
+                .peek(pm -> pm.setAddDate(new Date()))
+                .forEach(programingMemeRepository::save);
+
     }
 
     public Paged<ProgramingMeme> findAllPageable(int pageNumber, int pageSize){

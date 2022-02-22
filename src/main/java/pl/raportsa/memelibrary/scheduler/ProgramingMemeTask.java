@@ -19,8 +19,8 @@ public class ProgramingMemeTask {
 
     @Scheduled(fixedRate = 60 * 60 * 1000)
     public void getMemesFromApi() {
-        List<ProgramingMeme> randomMemes = programingMemesApiConnector.getRandomMemes();
-        if (randomMemes == null) return;
-        programingMemeService.saveAll(randomMemes);
+//        List<ProgramingMeme> randomMemes = programingMemesApiConnector.getRandomMemes();
+//        if (randomMemes == null) return;
+//        programingMemeService.saveAll(randomMemes);
     }
 }
