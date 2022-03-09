@@ -1,0 +1,10 @@
+<div th:fragment="notifications">
+    <div  th:each="notification: ${notifications}" class="row">
+        <div class="col-md-8">
+            <a th:href="@{'/rsameme/meme?id=' + ${notification.meme.id}}" th:text="${notification.text}">Text</a>
+        </div>
+        <div class="col-md-4">
+            <a th:text="${notification.addDate}">Data</a>
+        </div>
+    </div>
+</div>

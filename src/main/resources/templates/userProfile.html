@@ -66,12 +66,19 @@
         .stats span {
             font-size: 29px
         }
-
-
-
-
-
     </style>
+
+    <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+    </script>
+    <!-- onload -->
+    <script>
+    $(function() {
+        $('#popover').attr('data-content', $('#source').html());
+    });
+    </script>
 
 </head>
 <body>
@@ -190,7 +197,7 @@
     </div>
     <div class="col-md-2"></div>
 </div>
-
 </div>
+<div id="source" style="display:none;" th:insert="~{fragments/notifications :: notifications}"/>
 </body>
 </html>

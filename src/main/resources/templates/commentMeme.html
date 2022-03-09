@@ -30,7 +30,17 @@
             width:auto;
         }
     </style>
-
+    <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+    </script>
+    <!-- onload -->
+    <script>
+    $(function() {
+        $('#popover').attr('data-content', $('#source').html());
+    });
+    </script>
 </head>
 <body>
 <div th:replace="fragments/topnav :: navbar"/>
@@ -69,5 +79,7 @@
 <div style="margin-bottom:1%;">
     <div th:replace="fragments/commentPanel :: commentPanel"/>
 </div>
+<div id="source" style="display:none;" th:insert="~{fragments/notifications :: notifications}"/>
+
 </body>
 </html>

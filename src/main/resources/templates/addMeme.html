@@ -47,7 +47,17 @@
             image.src = URL.createObjectURL(event.target.files[0]);
         };
     </script>
-
+    <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+    </script>
+    <!-- onload -->
+    <script>
+    $(function() {
+        $('#popover').attr('data-content', $('#source').html());
+    });
+    </script>
 </head>
 <body>
 
@@ -114,5 +124,6 @@
         <button type="submit" class="btn btn-primary btn-block">Save</button>
     </form> <!-- /form -->
 </div> <!-- ./container -->
+<div id="source" style="display:none;" th:insert="~{fragments/notifications :: notifications}"/>
 </body>
 </html>

@@ -26,7 +26,25 @@
             height:auto;
             width:auto;
         }
+
+        .popover{
+            min-width:450px;
+        }
+
     </style>
+
+    <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+    </script>
+
+    <!-- onload -->
+    <script>
+    $(function() {
+        $('#popover').attr('data-content', $('#source').html());
+    });
+    </script>
 </head>
 <body>
 <div th:replace="fragments/topnav :: navbar"/>
@@ -98,5 +116,6 @@
         <div class="col-md-5"></div>
     </div>
 </div>
+<div id="source" style="display:none;" th:insert="~{fragments/notifications :: notifications}"/>
 </body>
 </html>

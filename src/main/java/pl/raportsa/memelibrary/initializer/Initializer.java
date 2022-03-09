@@ -23,7 +23,8 @@ public class Initializer {
 
     private void initUsers() {
         Arrays.asList(
-                new User("pojdana","admin", 1, Role.ROLE_ADMIN)
+                new User("user","user", 1, Role.ROLE_USER),
+                new User("user2","user2", 1, Role.ROLE_USER)
         ).forEach(userDetailsService::save);
     }
 

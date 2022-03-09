@@ -12,11 +12,13 @@
       <li class="nav-item">
         <a class="nav-link bi bi-file-earmark-plus" href="/rsameme/meme/add">Add Meme</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link bi bi-badge-8k" href="/rsameme/meme/programing">Programing Memes</a>
-      </li>
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link bi bi-badge-8k" href="/rsameme/meme/programing">Programing Memes</a>-->
+<!--      </li>-->
     </ul>
-
+    <a id="popover" style="max-width: 100%;" type="button" class="nav-link bi bi-bell" data-toggle="popover" data-placement="bottom"  data-html="true"
+       data-content="And here's some amazing content. It's very engaging. Right?">Notifications
+    </a>
     <form th:method="get" th:action="@{/rsameme/meme/search}" class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="text" placeholder="Search Meme by Title" aria-label="Search" name="title" id="title">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
