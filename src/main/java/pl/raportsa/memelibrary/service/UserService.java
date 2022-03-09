@@ -15,7 +15,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final MemeService memeService;
-
+    private final SubscriptionService subscriptionService;
 
     public User findByUsername(String name) {
         return userRepository.findByUsername(name).get();
@@ -27,6 +27,11 @@ public class UserService {
         s.setMemeCount(memes.size());
         s.setPositiveVotesCount(memes.stream().map(Meme::getPositiveRateCount).reduce(0L, Long::sum).intValue());
         s.setNegativeVotesCount(memes.stream().map(Meme::getNegativeRateCount).reduce(0L, Long::sum).intValue());
+        s.setSubscriptionsCount(subscriptionService.findByParent(user).size());
         return s;
+    }
+
+    public User findById(long idParent) {
+        return userRepository.getById(idParent);
     }
 }

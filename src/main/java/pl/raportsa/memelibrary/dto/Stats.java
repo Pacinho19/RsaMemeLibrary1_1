@@ -11,5 +11,6 @@ public class Stats {
     private int memeCount;
     private int positiveVotesCount;
     private int negativeVotesCount;
+    private int subscriptionsCount;
 
 }

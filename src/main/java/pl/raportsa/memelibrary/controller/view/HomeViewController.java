@@ -9,6 +9,8 @@ import pl.raportsa.memelibrary.entity.Meme;
 import pl.raportsa.memelibrary.model.pagination.Paged;
 import pl.raportsa.memelibrary.service.MemeService;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class HomeViewController {
@@ -16,7 +18,7 @@ public class HomeViewController {
     private final MemeService memeService;
 
     @GetMapping("/rsameme")
-    public String home(Model model,
+    public String home(HttpSession session, Model model,
                        @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
                        @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
 
@@ -26,6 +28,9 @@ public class HomeViewController {
         model.addAttribute("memes", memePage.getPage().getContent());
         model.addAttribute("memePage", memePage);
         model.addAttribute("url", "/rsameme");
+
+        session.setAttribute("url", "/rsameme");
+
 
         return "home";
     }

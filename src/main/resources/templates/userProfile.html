@@ -67,7 +67,11 @@
             font-size: 29px
         }
 
-      </style>
+
+
+
+
+    </style>
 
 </head>
 <body>
@@ -82,7 +86,14 @@
         </div>
         <div class=" text-center">
             <h4 th:text="${user.username}"> User name</h4> <span class="text-muted d-block mb-2">Los Angles</span>
-            <button class="btn btn-primary btn-sm follow">Follow</button>
+            <div th:if="${subscriptionId}>-1">
+                <form th:action="@{/rsameme/user/subscribe}" th:method="post">
+                    <input hidden name="userId" th:value="*{user.id}">
+                    <input hidden name="subscriptionId" th:value="*{subscriptionId}">
+                    <button th:if="${subscriptionId}>0" class="btn btn-secondary btn-sm follow">Unsubscribe</button>
+                    <button th:if="${subscriptionId}==0" class="btn btn-danger btn-sm follow">Subscribe</button>
+                </form>
+            </div>
             <div class="d-flex justify-content-between align-items-center mt-4 px-4">
                 <div class="stats">
                     <h6 class="mb-0">Memes</h6> <span><label th:text="${stats.memeCount}"></label></span>
@@ -94,6 +105,10 @@
                 <div class="stats">
                     <h6 class="mb-0">Negative Votes</h6> <span><label
                         th:text="${stats.negativeVotesCount}"></label></span>
+                </div>
+                <div class="stats">
+                    <h6 class="mb-0">Subscriptions</h6> <span><label
+                        th:text="${stats.subscriptionsCount}"></label></span>
                 </div>
             </div>
         </div>
