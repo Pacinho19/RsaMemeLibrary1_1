@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.raportsa.memelibrary.entity.Comment;
@@ -57,7 +58,11 @@ public class MemeViewController {
     }
 
     @PostMapping("/add")
-    public String addMeme(Meme meme, Authentication authentication, @RequestParam("memeFile") MultipartFile memeFile) {
+    public String addMeme(Meme meme, Authentication authentication, @RequestParam("memeFile") MultipartFile memeFile, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "home";
+        }
+
         User user = userService.findByUsername(authentication.getName());
         String memeName = FileUtils.saveImage(user.getUsername(), memeFile);
         meme.setName(memeName);

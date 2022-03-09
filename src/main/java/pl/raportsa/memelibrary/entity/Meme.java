@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import pl.raportsa.memelibrary.model.enums.Category;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -21,6 +22,7 @@ public class Meme {
     @GeneratedValue(generator = "memeId")
     private Long id;
 
+    @Size(min = 2)
     @Column(length = 50, nullable = false)
     private String title;
 

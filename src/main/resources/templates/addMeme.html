@@ -63,6 +63,7 @@
                 <div class="col-sm-9">
                     <input th:field="*{title}" required type="text" id="title" placeholder="Title" class="form-control"
                            autofocus>
+                    <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}">TitleError
                 </div>
             </div>
         </div>

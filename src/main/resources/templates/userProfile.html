@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment meme</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <link th:href="@{/style/comment.css}" rel="stylesheet"/>
+    <link th:href="@{/style/tooltip.css}" rel="stylesheet"/>
+
+    <style>
+        body {
+            background:#333;
+        }
+
+        img{
+            max-height:800px;
+            max-width:600px;
+            height:auto;
+            width:auto;
+        }
+
+        .container {
+            height: 100vh
+        }
+
+        .card {
+            width: 380px;
+            border: none;
+            border-radius: 15px;
+            padding: 8px;
+            background-color: #fff;
+            position: relative;
+            height: 370px
+        }
+
+        .upper {
+            height: 100px
+        }
+
+        .upper img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px
+        }
+
+        .follow {
+            border-radius: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
+            height: 35px
+        }
+
+        .stats span {
+            font-size: 29px
+        }
+
+      </style>
+
+</head>
+<body>
+<div th:replace="fragments/topnav :: navbar"/>
+
+<div class="row" style="margin-top:1%;text-align:center;">
+    <div class="col-md-4"></div>
+    <div class="col-md-4" style="text-align:center;background-color:white">
+        <div class="user text-center">
+            <div class="profile"><i style="font-size:90px;text-align:left" class="bi bi-person-square"></i>
+            </div>
+        </div>
+        <div class=" text-center">
+            <h4 th:text="${user.username}"> User name</h4> <span class="text-muted d-block mb-2">Los Angles</span>
+            <button class="btn btn-primary btn-sm follow">Follow</button>
+            <div class="d-flex justify-content-between align-items-center mt-4 px-4">
+                <div class="stats">
+                    <h6 class="mb-0">Memes</h6> <span><label th:text="${stats.memeCount}"></label></span>
+                </div>
+                <div class="stats">
+                    <h6 class="mb-0">Positive Votes</h6> <span><label
+                        th:text="${stats.positiveVotesCount}"></label></span>
+                </div>
+                <div class="stats">
+                    <h6 class="mb-0">Negative Votes</h6> <span><label
+                        th:text="${stats.negativeVotesCount}"></label></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+<div class="row" style="margin-top:1%;text-align:center;">
+    <div class="col-md-2"></div>
+    <div class="col-md-8" style="text-align:center;background-color:white">
+        <h2> Comments </h2>
+
+        <div th:each="comment: ${comments} " class="col-md-12" style="text-align:center;margin-bottom:2%;display:block">
+            <div class="bg-white p-2">
+                <div class="d-flex flex-row user-info">
+                    <i style="font-size:60px;text-align:left" class="bi bi-person-square"></i>
+                    <div class="d-flex flex-column justify-content-start ml-2" style="margin-top:1%">
+                        <span style="text-align:left;font-size:25px;" class="d-block font-weight-bold name"
+                              th:text="${comment.user.username}">
+                    </span>
+                        <span style="margin-top:2%font-size:20px;" class="date text-black-50"
+                              th:text="'Shared publicly ' + ${comment.addDate}"></span>
+                    </div>
+                </div>
+                <div style="text-align:left" class="mt-2">
+                    <p style="text-align:left;font-size:25px;" class="comment-text" th:text="${comment.text}"></p>
+                </div>
+                <div style="text-align:left" class="mt-2">
+                     <span class="mytooltip tooltip-effect-1">
+                    <a style="text-align:left" th:href="@{'/rsameme/meme?id=' + ${comment.meme.id}}">
+                        <label th:text="'Meme : ' + ${comment.meme.name}">Meme
+                            name</label>
+                    </a>
+                          <span class="tooltip-content">
+                              <img th:src="@{${'/img/' + comment.meme.user.username +'/' + comment.meme.name}}">
+                          </span>
+                     </span>
+                </div>
+            </div>
+
+            <hr>
+        </div>
+
+        <div style="margin-bottom:1%;margin-top:1%;text-align:center;">
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div style="text-align:center;" class="col-md-2">
+                    <nav aria-label="Page navigation" class="paging" style="width:100%;text-align:center;">
+                        <ul class="pagination" th:if="${commentPage.page.totalPages > 1}">
+                            <li class="page-item"
+                                th:classappend="${!commentPage.paging.isPrevEnabled()? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${url}+'&pageNumber=' + ${commentPage.paging.pageNumber - 1}}"
+                                   tabindex="-1">Previous</a>
+                            </li>
+                            <th:block th:each="item : ${commentPage.paging.getItems()}">
+                                <li class="page-item"
+                                    th:classappend="${item.index == commentPage.paging.pageNumber? 'active' : ''}"
+                                    th:if="${item.pageItemType.name() == 'PAGE'}">
+                                    <a class="page-link" th:href="@{${url}+'&pageNumber=' + ${item.index}}"
+                                       th:text="${item.index}"></a>
+                                </li>
+                                <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                                    <a class="page-link" href="#">...</a>
+                                </li>
+                            </th:block>
+                            <li class="page-item"
+                                th:classappend="${!commentPage.paging.isNextEnabled()? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${url}+'&pageNumber=' + ${commentPage.paging.pageNumber + 1}}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-5"></div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+</div>
+</body>
+</html>

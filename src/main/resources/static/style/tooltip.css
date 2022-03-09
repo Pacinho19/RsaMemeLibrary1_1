@@ -1,0 +1,33 @@
+.mytooltip {
+    display: inline;
+    position: relative;
+    z-index: 999
+}
+
+
+.mytooltip .tooltip-content {
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
+    bottom: 100%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    opacity: 0;
+    cursor: default;
+    pointer-events: none
+}
+
+
+.mytooltip .tooltip-content img {
+    max-height: 140px;
+    max-weight: 140px;
+}
+
+
+.mytooltip:hover .tooltip-content {
+    pointer-events: auto;
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0deg);
+    transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0deg)
+}

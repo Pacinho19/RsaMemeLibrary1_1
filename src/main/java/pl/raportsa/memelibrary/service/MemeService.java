@@ -66,6 +66,12 @@ public class MemeService {
         return meme;
     }
 
+    public List<Meme> findByUserWithVotes(User user) {
+        List<Meme> memes = memeRepository.findByUser(user);
+        voteService.setVotes(memes);
+        return memes;
+    }
+
     public Paged<Meme> findByUserWithVotes(User user, int pageNumber, int pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by("addDate").descending());
         Page<Meme> memes = memeRepository.findByUser(user, paging);
