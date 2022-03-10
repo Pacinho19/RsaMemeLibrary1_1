@@ -12,6 +12,7 @@ import pl.raportsa.memelibrary.entity.Comment;
 import pl.raportsa.memelibrary.entity.User;
 import pl.raportsa.memelibrary.model.pagination.Paged;
 import pl.raportsa.memelibrary.service.CommentService;
+import pl.raportsa.memelibrary.service.NotificationService;
 import pl.raportsa.memelibrary.service.SubscriptionService;
 import pl.raportsa.memelibrary.service.UserService;
 
@@ -25,6 +26,7 @@ public class UserViewController {
     private final UserService userService;
     private final CommentService commentService;
     private final SubscriptionService subscriptionService;
+    private final NotificationService notificationService;
 
     @GetMapping
     public String userProfile(Authentication authentication, HttpSession session, Model model, @RequestParam(value = "username") String username, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
@@ -39,6 +41,7 @@ public class UserViewController {
         model.addAttribute("commentPage", commentPaged);
         model.addAttribute("url", "/rsameme/user?username=" + username);
         model.addAttribute("subscriptionId", subscriptionService.getSubscriptionId(user, child));
+        model.addAttribute("notifications", notificationService.findUnreadByUser(user));
         session.setAttribute("url", "/rsameme/user?username=" + username);
         return "userProfile";
     }
@@ -48,8 +51,10 @@ public class UserViewController {
         User userChild = userService.findByUsername(authentication.getName());
         User userParent = userService.findById(userId);
         if (subscriptionId > 0) {
+            notificationService.add("User " + userChild.getUsername() + " unsubscribe your profile", userParent, null);
             subscriptionService.deleteSubscription(subscriptionId);
         } else {
+            notificationService.add("User " + userChild.getUsername() + " subscribe your profile", userParent, null);
             subscriptionService.subscribe(userParent, userChild);
         }
         return "redirect:/rsameme/user?username=" + userParent.getUsername();

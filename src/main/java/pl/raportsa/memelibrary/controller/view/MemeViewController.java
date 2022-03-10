@@ -14,6 +14,7 @@ import pl.raportsa.memelibrary.model.pagination.Paged;
 import pl.raportsa.memelibrary.service.*;
 import pl.raportsa.memelibrary.utils.FileUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -35,14 +36,13 @@ public class MemeViewController {
 
         if (pageNumber <= 0) pageNumber = 1;
 
-        session.setAttribute("url", "/rsameme/meme/myMeme?pageNumber="+pageNumber);
+        session.setAttribute("url", "/rsameme/meme/myMeme?pageNumber=" + pageNumber);
 
         User user = userService.findByUsername(authentication.getName());
         Paged<Meme> memePage = memeService.findByUserWithVotes(user, pageNumber - 1, size);
         model.addAttribute("memes", memePage.getPage().getContent());
         model.addAttribute("memePage", memePage);
         model.addAttribute("url", "/rsameme/meme/myMeme");
-
 
         List<Notification> notifications = notificationService.findUnreadByUser(user);
         model.addAttribute("notifications", notifications);
@@ -51,9 +51,12 @@ public class MemeViewController {
     }
 
     @GetMapping("/add")
-    public String addMeme(Model model) {
+    public String addMeme(Authentication authentication,
+                          Model model) {
         model.addAttribute("meme", new Meme());
         model.addAttribute("categories", Category.values());
+        model.addAttribute("notifications", notificationService.findUnreadByUser(userService.findByUsername(authentication.getName())));
+
         return "addMeme";
     }
 
@@ -95,8 +98,7 @@ public class MemeViewController {
         model.addAttribute("url", "/rsameme/meme/search");
 
         User user = userService.findByUsername(authentication.getName());
-        List<Notification> notifications = notificationService.findUnreadByUser(user);
-        model.addAttribute("notifications", notifications);
+        model.addAttribute("notifications", notificationService.findUnreadByUser(user));
 
         return "home";
     }
@@ -110,6 +112,8 @@ public class MemeViewController {
         if (vote == null) vote = new Vote(user, meme);
         vote.setVoteType(type == 1 ? VoteType.LIKE : VoteType.DISLIKE);
         voteService.save(vote);
+
+        notificationService.add("User " + user.getUsername() + " " + vote.getVoteType().toString().toLowerCase() + " your meme", meme.getUser(), meme);
 
         String url = (String) session.getAttribute("url");
         return url == null || url.isEmpty() ? "redirect:/rsameme" : "redirect:" + url;
@@ -145,8 +149,7 @@ public class MemeViewController {
 
 
         User user = userService.findByUsername(authentication.getName());
-        List<Notification> notifications = notificationService.findUnreadByUser(user);
-        model.addAttribute("notifications", notifications);
+        model.addAttribute("notifications", notificationService.findUnreadByUser(user));
 
         return "home";
     }
@@ -158,13 +161,17 @@ public class MemeViewController {
         Meme meme = memeService.findById(id);
         commentService.save(new Comment(meme, user, commentText));
 
+        notificationService.add("User " + user.getUsername() + " comment your meme", meme.getUser(), meme);
+
         return "redirect:/rsameme/meme?id=" + id;
     }
 
     @PostMapping("/notification")
-    public String notification(@RequestParam("notificationId") long id) {
+    public String notification(HttpServletRequest request,
+                               @RequestParam("notificationId") long id) {
         Notification notification = notificationService.findById(id);
         notificationService.read(notification);
+        if (notification.getMeme() == null) return "redirect:" + request.getHeader("Referer");
         return "redirect:/rsameme/meme?id=" + notification.getMeme().getId();
     }
 
