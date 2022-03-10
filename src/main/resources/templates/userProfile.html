@@ -19,6 +19,7 @@
 
     <link th:href="@{/style/comment.css}" rel="stylesheet"/>
     <link th:href="@{/style/tooltip.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/popover.js}"></script>
 
     <style>
         body {
@@ -66,19 +67,11 @@
         .stats span {
             font-size: 29px
         }
-    </style>
 
-    <script>
-        $(function () {
-          $('[data-toggle="popover"]').popover()
-        })
-    </script>
-    <!-- onload -->
-    <script>
-    $(function() {
-        $('#popover').attr('data-content', $('#source').html());
-    });
-    </script>
+        .popover{
+            min-width:550px;
+        }
+    </style>
 
 </head>
 <body>

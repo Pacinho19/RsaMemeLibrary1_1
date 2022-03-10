@@ -1,10 +1,15 @@
 <div th:fragment="notifications">
     <div  th:each="notification: ${notifications}" class="row">
         <div class="col-md-8">
-            <a th:href="@{'/rsameme/meme?id=' + ${notification.meme.id}}" th:text="${notification.text}">Text</a>
+            <form method="POST" th:action="@{/rsameme/meme/notification}" th:method="post">
+                <input hidden name="notificationId" th:value="*{notification.id}">
+                <button style="width:100%;font-size:15px;" type="submit" name="submit" value="value" class="btn btn-primary btn-lg active">
+                    <a th:text="${notification.text}">Text</a>
+                </button>
+            </form>
         </div>
-        <div class="col-md-4">
-            <a th:text="${notification.addDate}">Data</a>
+        <div class="col-md-4" style="margin-top:1%">
+            <a disabled style="width:100%;font-size:15px;"  class="btn btn-secondary btn-lg active" th:text="${#dates.format(notification.addDate, 'yyyy-MM-dd HH:mm')}">Data</a>
         </div>
     </div>
 </div>

@@ -27,8 +27,7 @@ public class NotificationService {
     }
 
     @Transactional
-    public void read(long notificationId) {
-        Notification notification = notificationRepository.getById(notificationId);
+    public void read(Notification notification) {
         notification.setReadDate(new Date());
     }
 
@@ -44,7 +43,11 @@ public class NotificationService {
     public void checkForNotifications(User user, String text, Meme meme) {
         List<Subscription> sub = subscriptionService.findByParent(user);
         sub.forEach(s -> {
-            add(text, s.getChild(),meme);
+            add(text, s.getChild(), meme);
         });
+    }
+
+    public Notification findById(long id) {
+        return notificationRepository.getById(id);
     }
 }

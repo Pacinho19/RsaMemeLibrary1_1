@@ -161,4 +161,11 @@ public class MemeViewController {
         return "redirect:/rsameme/meme?id=" + id;
     }
 
+    @PostMapping("/notification")
+    public String notification(@RequestParam("notificationId") long id) {
+        Notification notification = notificationService.findById(id);
+        notificationService.read(notification);
+        return "redirect:/rsameme/meme?id=" + notification.getMeme().getId();
+    }
+
 }

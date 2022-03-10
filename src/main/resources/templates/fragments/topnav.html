@@ -17,7 +17,9 @@
 <!--      </li>-->
     </ul>
     <a id="popover" style="max-width: 100%;" type="button" class="nav-link bi bi-bell" data-toggle="popover" data-placement="bottom"  data-html="true"
-       data-content="And here's some amazing content. It's very engaging. Right?">Notifications
+       data-content="And here's some amazing content. It's very engaging. Right?">
+      Notifications
+      <span class="badge badge-secondary" th:text="${notifications.size}"></span>
     </a>
     <form th:method="get" th:action="@{/rsameme/meme/search}" class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="text" placeholder="Search Meme by Title" aria-label="Search" name="title" id="title">
