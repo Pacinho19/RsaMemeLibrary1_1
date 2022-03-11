@@ -43,7 +43,7 @@ public class UserViewController {
         model.addAttribute("commentPage", commentPaged);
         model.addAttribute("url", "/rsameme/user?username=" + username);
         model.addAttribute("subscriptionId", subscriptionService.getSubscriptionId(user, child));
-        model.addAttribute("notifications", notificationService.findUnreadByUser(user));
+        model.addAttribute("notifications", notificationService.findUnreadByUser(child));
         session.setAttribute("url", "/rsameme/user?username=" + username);
         return "userProfile";
     }
