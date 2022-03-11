@@ -50,4 +50,10 @@ public class NotificationService {
     public Notification findById(long id) {
         return notificationRepository.getById(id);
     }
+
+    @Transactional
+    public void setAllAsRead(User user) {
+        notificationRepository.findAllByUserAndReadDateIsNull(user)
+                .forEach(n -> n.setReadDate(new Date()));
+    }
 }

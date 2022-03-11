@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.raportsa.memelibrary.entity.Comment;
+import pl.raportsa.memelibrary.entity.Notification;
 import pl.raportsa.memelibrary.entity.User;
 import pl.raportsa.memelibrary.model.pagination.Paged;
 import pl.raportsa.memelibrary.service.CommentService;
@@ -16,6 +17,7 @@ import pl.raportsa.memelibrary.service.NotificationService;
 import pl.raportsa.memelibrary.service.SubscriptionService;
 import pl.raportsa.memelibrary.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -58,5 +60,20 @@ public class UserViewController {
             subscriptionService.subscribe(userParent, userChild);
         }
         return "redirect:/rsameme/user?username=" + userParent.getUsername();
+    }
+
+    @PostMapping("/notification")
+    public String notification(HttpServletRequest request,
+                               @RequestParam("notificationId") long id) {
+        Notification notification = notificationService.findById(id);
+        notificationService.read(notification);
+        if (notification.getMeme() == null) return "redirect:" + request.getHeader("Referer");
+        return "redirect:/rsameme/meme?id=" + notification.getMeme().getId();
+    }
+
+    @GetMapping("/readAllNotification")
+    public String readAllNotification(Authentication authentication) {
+        notificationService.setAllAsRead(userService.findByUsername(authentication.getName()));
+        return "redirect:/rsameme";
     }
 }
