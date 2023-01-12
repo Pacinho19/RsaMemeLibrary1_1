@@ -109,11 +109,16 @@ public class MemeViewController {
         User user = userService.findByUsername(authentication.getName());
         Vote vote = voteService.findByUserAndMeme(user.getId(), memeId);
 
+        VoteType voteType = VoteType.byNumber(type);
+
+        if (vote != null && vote.getVoteType() != voteType) {
+            notificationService.add("User " + user.getUsername() + " " + vote.getVoteType().toString().toLowerCase() + " your meme", meme.getUser(), meme);
+        }
+
         if (vote == null) vote = new Vote(user, meme);
-        vote.setVoteType(type == 1 ? VoteType.LIKE : VoteType.DISLIKE);
+        vote.setVoteType(voteType);
         voteService.save(vote);
 
-        notificationService.add("User " + user.getUsername() + " " + vote.getVoteType().toString().toLowerCase() + " your meme", meme.getUser(), meme);
 
         String url = (String) session.getAttribute("url");
         return url == null || url.isEmpty() ? "redirect:/rsameme" : "redirect:" + url;
@@ -125,7 +130,6 @@ public class MemeViewController {
         List<Comment> comments = commentService.finByMemeId(id);
         model.addAttribute("meme", meme);
         model.addAttribute("comments", comments);
-
 
         User user = userService.findByUsername(authentication.getName());
         List<Notification> notifications = notificationService.findUnreadByUser(user);
@@ -164,6 +168,21 @@ public class MemeViewController {
         notificationService.add("User " + user.getUsername() + " comment your meme", meme.getUser(), meme);
 
         return "redirect:/rsameme/meme?id=" + id;
+    }
+
+    @PostMapping("/share")
+    public String share(HttpServletRequest request,
+                        Authentication authentication,
+                        @RequestParam("memeId") long id, @RequestParam("username") String username) {
+        User userDest = userService.findByUsername(username);
+
+        if (userDest != null) {
+            User user = userService.findByUsername(authentication.getName());
+            Meme meme = memeService.findById(id);
+            notificationService.add("User " + user.getUsername() + " shares the meme with you. Check it!", userDest, meme);
+        }
+
+        return "redirect:" + request.getHeader("Referer");
     }
 
 
